@@ -16,11 +16,17 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 /**
- * Created by niels on 12/17/14.
+ * Created by niels on 12/22/14.
  */
 
 public class SalaryMax {
 
+    /*
+        (Writable) Employee class
+
+        Introduced to be able to return both name and salary as
+        a result of map and reduce operations.
+     */
     public static class Employee implements Writable {
         private Text name;
         private IntWritable salary;
@@ -73,6 +79,7 @@ public class SalaryMax {
         }
     }
 
+    // Map(lineOfData) -> (department, (name, salary)
     public static class TokenizerMapper extends Mapper<Object, Text, Text, Employee> {
         private Text department = new Text();
         private Employee employee = new Employee();
@@ -101,6 +108,7 @@ public class SalaryMax {
         }
     }
 
+    // Reduce(department, [(name, salary), (name, salary), ...]) -> (department, (name, salary))
     public static class IntSumReducer extends Reducer<Text, Employee, Text, Employee> {
         public void reduce(Text key, Iterable<Employee> values, Context context) throws IOException, InterruptedException {
             Employee highestEmployee = new Employee();
