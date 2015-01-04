@@ -98,7 +98,7 @@ public class SalaryMax {
             String name = parts[1];
             int salary = Integer.parseInt(parts[5]);
             int bonus = 0;
-            if(!parts[6].equals("")) {
+            if(!parts[6].equals("")) {  // Include bonus, if any
                 bonus = Integer.parseInt(parts[6]);
             }
             employee.setName(name);
