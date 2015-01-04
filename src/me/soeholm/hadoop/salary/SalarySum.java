@@ -17,6 +17,7 @@ import java.io.IOException;
  */
 public class SalarySum {
 
+    // Map(lineOfData) -> (department, salary)
     public static class TokenizerMapper extends Mapper<Object, Text, Text, IntWritable> {
         private Text department = new Text();
         private IntWritable salary;
@@ -29,6 +30,7 @@ public class SalarySum {
         }
     }
 
+    // Reduce(department, [salary, salary, ...]) -> (department, salary)
     public static class IntSumReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
         private IntWritable result = new IntWritable();
 
@@ -44,7 +46,7 @@ public class SalarySum {
 
     public static void main(String[] args) throws Exception {
         Configuration conf = new Configuration();
-        Job job = Job.getInstance(conf, "word count");
+        Job job = Job.getInstance(conf, "salary sum");
         job.setJarByClass(SalarySum.class);
         job.setMapperClass(TokenizerMapper.class);
         job.setCombinerClass(IntSumReducer.class);
